@@ -73,13 +73,13 @@ router.post('/login', async (req, res) => {
     // Find user
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: 'Invalid credentials' });
+      return res.status(400).json({ error: 'No account found with this email address' });
     }
 
     // Check password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(400).json({ error: 'Invalid credentials' });
+      return res.status(400).json({ error: 'Incorrect password. Please try again.' });
     }
 
     // Generate JWT token
@@ -100,6 +100,38 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Server error during login' });
+  }
+});
+
+// Forgot Password (basic implementation - in production you'd send emails)
+router.post('/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    // Find user
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ error: 'No account found with this email address' });
+    }
+
+    // In a real application, you would:
+    // 1. Generate a password reset token
+    // 2. Save it to the database with expiration
+    // 3. Send an email with reset link
+    
+    // For now, we'll just return a success message
+    res.json({ 
+      message: 'Password reset instructions have been sent to your email address',
+      // In development, you might want to show the reset token
+      resetToken: 'demo-reset-token-' + Date.now()
+    });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ error: 'Server error processing password reset request' });
   }
 });
 

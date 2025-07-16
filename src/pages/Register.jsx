@@ -59,9 +59,19 @@ const Register = () => {
     }}>
       <div className="card" style={{ width: '100%', maxWidth: '400px' }}>
         <div className="card-body">
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <div style={{ 
+            textAlign: 'center', 
+            marginBottom: '2rem',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}>
             <UserPlus size={48} style={{ color: '#3b82f6', marginBottom: '1rem' }} />
-            <h1 style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0 0.5rem 0' }}>
+            <h1 style={{ 
+              fontSize: '2rem', 
+              fontWeight: 'bold', 
+              margin: '0 0 0.5rem 0'
+            }}>
               Create Account
             </h1>
             <p style={{ color: '#64748b', margin: 0 }}>
@@ -78,7 +88,7 @@ const Register = () => {
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label className="form-label">
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center' }}>
                 <User size={16} style={{ marginRight: '0.5rem' }} />
                 Username
               </label>
@@ -94,7 +104,7 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center' }}>
                 <Mail size={16} style={{ marginRight: '0.5rem' }} />
                 Email
               </label>
@@ -110,7 +120,7 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center' }}>
                 <Lock size={16} style={{ marginRight: '0.5rem' }} />
                 Password
               </label>
@@ -126,7 +136,7 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center' }}>
                 <Lock size={16} style={{ marginRight: '0.5rem' }} />
                 Confirm Password
               </label>
@@ -162,7 +172,7 @@ const Register = () => {
             <p style={{ color: '#64748b', margin: 0 }}>
               Already have an account?{' '}
               <Link to="/login" style={{ color: '#3b82f6', textDecoration: 'none' }}>
-                Sign in
+                Sign In
               </Link>
             </p>
           </div>
