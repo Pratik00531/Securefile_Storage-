@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { authAPI } from '../services/api';
 import { UserPlus, Mail, Lock, User } from 'lucide-react';
+import Scene3D from '../components/3D/Scene3D';
+import HolographicCard from '../components/3D/HolographicCard';
+import HolographicInput from '../components/3D/HolographicInput';
+import NeonButton from '../components/3D/NeonButton';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -51,108 +56,137 @@ const Register = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6 col-lg-4">
-          <div className="card shadow">
-            <div className="card-body">
-              <div className="text-center mb-4">
-                <UserPlus size={48} className="text-primary mb-3" />
-                <h2 className="card-title">Create Account</h2>
-                <p className="text-muted">Join our secure file storage system</p>
-              </div>
+    <Scene3D>
+      <div className="container-3d" style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        minHeight: '100vh',
+        padding: '20px'
+      }}>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          style={{ width: '100%', maxWidth: '400px' }}
+        >
+          <HolographicCard className="form-container">
+            <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ delay: 0.3, type: 'spring' }}
+              >
+                <UserPlus 
+                  size={64} 
+                  style={{ 
+                    color: '#ff00ff', 
+                    marginBottom: '20px',
+                    filter: 'drop-shadow(0 0 20px #ff00ff)'
+                  }} 
+                />
+              </motion.div>
+              <h1 className="glow-text" style={{ 
+                fontSize: '2rem', 
+                marginBottom: '10px',
+                color: '#ff00ff'
+              }}>
+                Create Vault
+              </h1>
+              <p style={{ 
+                color: 'rgba(255, 255, 255, 0.7)', 
+                fontSize: '1.1rem' 
+              }}>
+                Join the secure network
+              </p>
+            </div>
 
-              {error && (
-                <div className="alert alert-danger" role="alert">
-                  {error}
-                </div>
-              )}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="alert-3d"
+              >
+                {error}
+              </motion.div>
+            )}
 
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="username" className="form-label">
-                    <User size={16} className="me-1" />
-                    Username
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="username"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required
-                    minLength={3}
-                  />
-                </div>
+            <form onSubmit={handleSubmit}>
+              <HolographicInput
+                label="Username"
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Choose a username"
+                icon={User}
+                required
+              />
 
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    <Mail size={16} className="me-1" />
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
+              <HolographicInput
+                label="Email"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
+                icon={Mail}
+                required
+              />
 
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">
-                    <Lock size={16} className="me-1" />
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    minLength={6}
-                  />
-                </div>
+              <HolographicInput
+                label="Password"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Create a password"
+                icon={Lock}
+                required
+              />
 
-                <div className="mb-3">
-                  <label htmlFor="confirmPassword" className="form-label">
-                    <Lock size={16} className="me-1" />
-                    Confirm Password
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                    minLength={6}
-                  />
-                </div>
+              <HolographicInput
+                label="Confirm Password"
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm your password"
+                icon={Lock}
+                required
+              />
 
-                <button
-                  type="submit"
-                  className="btn btn-primary w-100"
-                  disabled={loading}
+              <NeonButton
+                type="submit"
+                variant="secondary"
+                disabled={loading}
+                loading={loading}
+                style={{ width: '100%', marginBottom: '20px' }}
+              >
+                {loading ? 'Creating Vault...' : 'Initialize Vault'}
+              </NeonButton>
+            </form>
+
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+                Already have access? {' '}
+                <Link 
+                  to="/login" 
+                  style={{ 
+                    color: '#ff00ff', 
+                    textDecoration: 'none',
+                    textShadow: '0 0 5px rgba(255, 0, 255, 0.5)'
+                  }}
                 >
-                  {loading ? 'Creating Account...' : 'Register'}
-                </button>
-              </form>
-
-              <div className="text-center mt-3">
-                <p>Already have an account? <Link to="/login">Login here</Link></p>
+                  Enter Vault
+                </Link>
+              </p>
               </div>
             </div>
-          </div>
-        </div>
+          </HolographicCard>
+        </motion.div>
       </div>
-    </div>
+    </Scene3D>
   );
 };
 

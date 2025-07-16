@@ -6,13 +6,12 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="App">
+        <div className="App" style={{ paddingTop: '80px' }}>
           <Navbar />
           <Routes>
             <Route path="/login" element={<Login />} />
