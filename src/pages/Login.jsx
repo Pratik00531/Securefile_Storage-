@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { authAPI } from '../services/api';
-import { LogIn, Mail, Lock } from 'lucide-react';
-import Scene3D from '../components/3D/Scene3D';
-import HolographicCard from '../components/3D/HolographicCard';
-import HolographicInput from '../components/3D/HolographicInput';
-import NeonButton from '../components/3D/NeonButton';
+import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -43,114 +38,92 @@ const Login = () => {
   };
 
   return (
-    <Scene3D>
-      <div className="container-3d" style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        minHeight: '100vh',
-        padding: '20px'
-      }}>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          style={{ width: '100%', maxWidth: '400px' }}
-        >
-          <HolographicCard className="form-container">
-            <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.3, type: 'spring' }}
-              >
-                <LogIn 
-                  size={64} 
-                  style={{ 
-                    color: '#00ffff', 
-                    marginBottom: '20px',
-                    filter: 'drop-shadow(0 0 20px #00ffff)'
-                  }} 
-                />
-              </motion.div>
-              <h1 className="glow-text" style={{ 
-                fontSize: '2rem', 
-                marginBottom: '10px',
-                color: '#00ffff'
-              }}>
-                Welcome Back
-              </h1>
-              <p style={{ 
-                color: 'rgba(255, 255, 255, 0.7)', 
-                fontSize: '1.1rem' 
-              }}>
-                Access your secure vault
-              </p>
+    <div className="page-container" style={{ 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      minHeight: 'calc(100vh - 160px)'
+    }}>
+      <div className="card" style={{ width: '100%', maxWidth: '400px' }}>
+        <div className="card-body">
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <LogIn size={48} style={{ color: '#3b82f6', marginBottom: '1rem' }} />
+            <h1 style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0 0.5rem 0' }}>
+              Welcome Back
+            </h1>
+            <p style={{ color: '#64748b', margin: 0 }}>
+              Sign in to your account
+            </p>
+          </div>
+
+          {error && (
+            <div className="alert alert-error">
+              <AlertCircle size={16} />
+              {error}
             </div>
+          )}
 
-            {error && (
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="alert-3d"
-              >
-                {error}
-              </motion.div>
-            )}
-
-            <form onSubmit={handleSubmit}>
-              <HolographicInput
-                label="Email"
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label className="form-label">
+                <Mail size={16} style={{ marginRight: '0.5rem' }} />
+                Email
+              </label>
+              <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                className="form-input"
                 placeholder="Enter your email"
-                icon={Mail}
                 required
               />
+            </div>
 
-              <HolographicInput
-                label="Password"
+            <div className="form-group">
+              <label className="form-label">
+                <Lock size={16} style={{ marginRight: '0.5rem' }} />
+                Password
+              </label>
+              <input
                 type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
+                className="form-input"
                 placeholder="Enter your password"
-                icon={Lock}
                 required
               />
-
-              <NeonButton
-                type="submit"
-                variant="primary"
-                disabled={loading}
-                loading={loading}
-                style={{ width: '100%', marginBottom: '20px' }}
-              >
-                {loading ? 'Accessing Vault...' : 'Enter Vault'}
-              </NeonButton>
-            </form>
-
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                Need access? {' '}
-                <Link 
-                  to="/register" 
-                  style={{ 
-                    color: '#00ffff', 
-                    textDecoration: 'none',
-                    textShadow: '0 0 5px rgba(0, 255, 255, 0.5)'
-                  }}
-                >
-                  Create Account
-                </Link>
-              </p>
             </div>
-          </HolographicCard>
-        </motion.div>
+
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+              style={{ width: '100%', marginBottom: '1rem' }}
+            >
+              {loading ? (
+                <>
+                  <div className="spinner" style={{ width: '16px', height: '16px', marginRight: '0.5rem' }}></div>
+                  Signing in...
+                </>
+              ) : (
+                'Sign In'
+              )}
+            </button>
+          </form>
+
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ color: '#64748b', margin: 0 }}>
+              Don't have an account?{' '}
+              <Link to="/register" style={{ color: '#3b82f6', textDecoration: 'none' }}>
+                Sign up
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
-    </Scene3D>
+    </div>
   );
 };
 
