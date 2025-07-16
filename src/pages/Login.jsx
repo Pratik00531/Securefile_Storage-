@@ -146,7 +146,6 @@ const Login = () => {
                   Create Account
                 </Link>
               </p>
-              </div>
             </div>
           </HolographicCard>
         </motion.div>

@@ -181,7 +181,6 @@ const Register = () => {
                   Enter Vault
                 </Link>
               </p>
-              </div>
             </div>
           </HolographicCard>
         </motion.div>
