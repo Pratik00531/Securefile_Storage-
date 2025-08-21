@@ -6,13 +6,19 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import Files from './pages/Files';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <Router
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true
+        }}
+      >
         <div className="App">
           <Navbar />
           <main className="main-content">
@@ -24,6 +30,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Dashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/files" 
+                element={
+                  <ProtectedRoute>
+                    <Files />
                   </ProtectedRoute>
                 } 
               />

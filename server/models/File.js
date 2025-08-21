@@ -17,6 +17,11 @@ const fileSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  category: {
+    type: String,
+    enum: ['image', 'video', 'audio', 'document', 'spreadsheet', 'presentation', 'archive', 'text', 'other'],
+    default: 'other'
+  },
   encryptedPath: {
     type: String,
     required: true
@@ -29,6 +34,10 @@ const fileSchema = new mongoose.Schema({
   isEncrypted: {
     type: Boolean,
     default: true
+  },
+  downloadCount: {
+    type: Number,
+    default: 0
   }
 }, {
   timestamps: true

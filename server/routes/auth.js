@@ -39,11 +39,27 @@ router.post('/register', async (req, res) => {
 
     await user.save();
 
-    // Generate JWT token
+    // Generate JWT token with enhanced security
+    const tokenPayload = {
+      userId: user._id,
+      username: user.username,
+      email: user.email,
+      iat: Math.floor(Date.now() / 1000), // Issued at
+      type: 'access_token'
+    };
+
+    // Debug: Check if JWT_SECRET is loaded
+    console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
+    console.log('JWT_SECRET length:', process.env.JWT_SECRET?.length);
+
     const token = jwt.sign(
-      { userId: user._id }, 
+      tokenPayload,
       process.env.JWT_SECRET, 
-      { expiresIn: '7d' }
+      { 
+        expiresIn: '7d',
+        issuer: 'SecureFileStorage',
+        audience: 'secure-file-users'
+      }
     );
 
     res.status(201).json({
@@ -82,11 +98,23 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Incorrect password. Please try again.' });
     }
 
-    // Generate JWT token
+    // Generate JWT token with enhanced security
+    const tokenPayload = {
+      userId: user._id,
+      username: user.username,
+      email: user.email,
+      iat: Math.floor(Date.now() / 1000), // Issued at
+      type: 'access_token'
+    };
+
     const token = jwt.sign(
-      { userId: user._id }, 
+      tokenPayload,
       process.env.JWT_SECRET, 
-      { expiresIn: '7d' }
+      { 
+        expiresIn: '7d',
+        issuer: 'SecureFileStorage',
+        audience: 'secure-file-users'
+      }
     );
 
     res.json({
